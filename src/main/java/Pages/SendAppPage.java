@@ -59,79 +59,54 @@ public class SendAppPage extends BasePage {
         PageFactory.initElements(driver, this);
 //        (new WebDriverWait(driver, 10))
 //                .until(ExpectedConditions.visibilityOf(title));
+        this.driver = driver;
     }
 
-    public void fillField(WebElement element, String value) {
+    public void fillFielder(WebElement element, String value) {
         element.clear();
         element.sendKeys(value);
     }
 
-        public void fillFielder(String fieldName, String value) {
-            switch (fieldName){
-                case "Фамилия / Surname":
-                    fillField(clientSurName);
-                    break;
-                case "Имя / Name":
-                    fillField(clientName);
-                    break;
-                case "Дата рождения":
-                    fillField(clientBirthDate);
-                    break;
-                case "Фамилия":
-                    fillField(insFirstName);
-                    break;
-                case "Имя":
-                    fillField(insLastName);
-                    break;
-                case "Отчество":
-                    fillField(insMiddleName);
-                    break;
-                case "Дата рождения":
-                    fillField(insBirthDate);
-                    break;
-                case "Пол":
-                    fillField(gender);
-                    break;
-                case "Номер паспорта":
-                    fillField(passportNumber);
-                    break;
-                case "Серия паспорта":
-                    fillField(passportSeries);
-                    break;
-                case "Дата выдачи":
-                    fillField(documentDate);
-                    break;
-                case "Кем выдан ":
-                    fillField(documentIssue);
-                    break;
-                default:
-                    throw new IllegalStateException("Unexpected value: " + fieldName);
+        public void fillField(String fieldName, String value) {
+            switch (fieldName) {
+                case "Имя / Name" -> fillField(clientSurName, "Иванов");
+                case "Имя / Name" -> fillField(clientName, "Иван");
+                case "Дата рождения" -> fillField(clientBirthDate, "29.01.2000");
+                case "Фамилия" -> fillField(insFirstName, "Страховщиков");
+                case "Имя" -> fillField(insLastName, "Страховщик");
+                case "Отчество" -> fillField(insMiddleName, "Страховщикович");
+                case "Дата рождения" -> fillField(insBirthDate, "30.12.1999");
+                case "Пол" -> fillField(gender, "male");
+                case "Номер паспорта" -> fillField(passportNumber, "45 19");
+                case "Серия паспорта" -> fillField(passportSeries, "200000");
+                case "Дата выдачи" -> fillField(documentDate, "01.01.2020");
+                case "Кем выдан " -> fillField(documentIssue, "ТП УФМС РОССИИ");
+                default -> throw new IllegalStateException("Unexpected value: " + fieldName);
             }
-
         }
 
         //Что должно делать?
-        public String getFillField(String fieldName){
-            switch (fieldName){
-                case  "Фамилия":
-                    return lastName.getAttribute("value");
-                case  "Имя":
-                    return firstName.getAttribute("value");
-                case  "Отчество":
-                    return middleName.getAttribute("value");
-                case  "Телефон":
-                    return phone.getAttribute("value");
-                case  "Регион":
-                    return new Select(region).getAllSelectedOptions().get(0).getText();
-                case  "Эл. почта":
-                    return email.getAttribute("value");
-                case  "Комментарии":
-                    return comment.getAttribute("value");
-                case  "Дата контакта":
-                    return contactDate.getAttribute("value");
-            }
-            throw new AssertionError("Поле не объявлено на странице");
-        }
+//        public String getFillField(String fieldName){
+//            switch (fieldName){
+//                case  "Фамилия":
+//                    return lastName.getAttribute("value");
+//                case  "Имя":
+//                    return firstName.getAttribute("value");
+//                case  "Отчество":
+//                    return middleName.getAttribute("value");
+//                case  "Телефон":
+//                    return phone.getAttribute("value");
+//                case  "Регион":
+//                    return new Select(region).getAllSelectedOptions().get(0).getText();
+//                case  "Эл. почта":
+//                    return email.getAttribute("value");
+//                case  "Комментарии":
+//                    return comment.getAttribute("value");
+//                case  "Дата контакта":
+//                    return contactDate.getAttribute("value");
+//            }
+//            throw new AssertionError("Поле не объявлено на странице");
+//        }
 
     public void checkFieldErrorMessage(String field, String errorMessage){
         String xpath = "//*[text()='"+ field +"']/..//*[@class = 'invalid-validate form-control__message']";
