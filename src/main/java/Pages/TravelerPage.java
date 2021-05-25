@@ -13,6 +13,7 @@ public class TravelerPage extends BasePage{
     @FindBy(xpath = "//*[@class = 'kitt-col kitt-col_xs_12 kitt-col_md_6 kitt-col_lg_5 kitt-col_xl_6']")
     public WebElement sendButton;
 
+
     public TravelerPage(WebDriver driver){
         PageFactory.initElements(driver, this);
 

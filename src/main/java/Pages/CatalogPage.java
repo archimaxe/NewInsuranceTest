@@ -13,10 +13,13 @@ public class CatalogPage extends BasePage{
     @FindBy(xpath = "//*[text() = 'Страхование для путешественников']")
     public WebElement travelerButton;
 
+    @FindBy(xpath = "//*[@class = 'kitt-cookie-warning__close']")
+    public WebElement closeCookiesButton;
+
     public CatalogPage(WebDriver driver){
         PageFactory.initElements(driver, this);
 
-        // Нажимаем на "Страхование для путешественников"
+        // Может мешать окно с куками - закрываем:
         driver.findElement(By.xpath("//*[@class = 'kitt-cookie-warning__close']")).click();
     }
 

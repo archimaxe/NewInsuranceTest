@@ -19,10 +19,10 @@ public class BaseTest {
     @BeforeClass
     public static void setUp() throws Exception {
         switch (properties.getProperty("browser")){
-            case "firefox":
-                System.setProperty("webdriver.gecko.driver", properties.getProperty("webdriver.gecko.driver"));
-                driver = new FirefoxDriver();
-                break;
+//            case "firefox":
+//                System.setProperty("webdriver.gecko.driver", properties.getProperty("webdriver.gecko.driver"));
+//                driver = new FirefoxDriver();
+//                break;
             case "Chrome":
                 System.setProperty("webdriver.Chrome.driver", properties.getProperty("webdriver.Chrome.driver"));
                 driver = new ChromeDriver();
@@ -40,6 +40,7 @@ public class BaseTest {
 
     @AfterClass
     public static void tearDown() throws Exception {
+        Thread.sleep(3000);
         driver.quit();
     }
 

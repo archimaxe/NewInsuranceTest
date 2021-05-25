@@ -8,7 +8,7 @@ import org.openqa.selenium.support.PageFactory;
 
 public class MainPage {
 
-    // Блок с меню - зачем нужен?
+    // Блок с меню
     @FindBy(xpath = "//*[@class = ' kitt-top-menu kitt-top-menu_icons kitt-top-menu_wide']")
     WebElement mainMenu;
 

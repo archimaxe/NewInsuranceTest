@@ -1,5 +1,7 @@
 import Pages.*;
+import org.junit.Assert;
 import org.junit.Test;
+import org.openqa.selenium.By;
 
 public class MyRefactoringTest extends BaseTest{
     @Test
@@ -8,15 +10,19 @@ public class MyRefactoringTest extends BaseTest{
         Thread.sleep(1500);
 
         MainPage mainPage = new MainPage(driver);
-
         mainPage.selectMainMenu("Страхование");
         mainPage.selectSubMenu("Перейти в каталог");
 
+
         CatalogPage catalogPage = new CatalogPage(driver);
+        catalogPage.closeCookiesButton.click();
+        scrollDown();
         catalogPage.travelerButton.click();
         Thread.sleep(1500);
 
         TravelerPage travelerPage = new TravelerPage(driver);
+        String expectedTitle = "Страхование для путешественников — СберБанк";
+        Assert.assertEquals(expectedTitle, driver.getTitle());
         travelerPage.pressTravelerSendButton();
         Thread.sleep(1500);
 
@@ -44,10 +50,16 @@ public class MyRefactoringTest extends BaseTest{
 
         sendAppPage.submitButton.click();
 
+        Assert.assertEquals("При заполнении данных произошла ошибка",
+                driver.findElement(By.xpath("//*[@class = 'alert-form alert-form-error']")).getText());
+
+        sendAppPage.checkPageErrorMessage();
+        sendAppPage.checkFieldErrorMessage();
+
+
+//
+
+
 //        sendAppPage.checkFillField();
-
-
     }
-
-
 }
