@@ -1,19 +1,11 @@
 package Pages;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import org.openqa.selenium.support.ui.Select;
-
-
-import java.util.stream.Stream;
 
 public class SendAppPage extends BasePage {
 
@@ -39,7 +31,7 @@ public class SendAppPage extends BasePage {
     public WebElement insBirthDate;
 
     @FindBy(xpath = "//*[text() = 'Женский']")
-    public WebElement gender;
+    public WebElement femGender;
 
     @FindBy(id = "passportSeries")
     public WebElement passportSeries;
@@ -58,9 +50,11 @@ public class SendAppPage extends BasePage {
 
     public SendAppPage(WebDriver driver){
         PageFactory.initElements(driver, this);
-//        (new WebDriverWait(driver, 10))
-//                .until(ExpectedConditions.visibilityOf(title));
         this.driver = driver;
+    }
+
+    public void pressFemaleGenderButton(){
+        femGender.click();
     }
 
     public void fillField(WebElement element, String value) {
@@ -71,48 +65,46 @@ public class SendAppPage extends BasePage {
         public void fillField(String fieldName, String value) {
             switch (fieldName) {
                 case "Фамилия / Surname":
-                    fillField(clientSurName, "Иванов");
+                    fillField(clientSurName, value);
                     break;
                 case "Имя / Name":
-                    fillField(clientName, "Иван");
+                    fillField(clientName, value);
                     break;
                 case "Дата рождения" :
-                    fillField(clientBirthDate, "29.01.2000");
+                    fillField(clientBirthDate, value);
                     break;
                 case "Фамилия" :
-                    fillField(insFirstName, "Страховщиков");
+                    fillField(insLastName, value);
                     break;
                 case "Имя" :
-                    fillField(insLastName, "Страховщик");
+                    fillField(insFirstName, value);
                     break;
                 case "Отчество" :
-                    fillField(insMiddleName, "Страховщикович");
+                    fillField(insMiddleName, value);
                     break;
-                    // java: duplicate case label
-//                case "Дата рождения" :
-//                    fillField(insBirthDate, "30.12.1999");
-//                    break;
+                case "Дата рождения страхователя" :
+                    fillField(insBirthDate, value);
+                    break;
                 case "Пол" :
-                    fillField(gender, "male");
+                    fillField(femGender, value);
                     break;
                 case "Номер паспорта" :
-                    fillField(passportNumber, "45 19");
+                    fillField(passportNumber, value);
                     break;
                 case "Серия паспорта" :
-                    fillField(passportSeries, "200000");
+                    fillField(passportSeries, value);
                     break;
                 case "Дата выдачи" :
-                    fillField(documentDate, "01.01.2020");
+                    fillField(documentDate, value);
                     break;
                 case "Кем выдан" :
-                    fillField(documentIssue, "ТП УФМС РОССИИ");
+                    fillField(documentIssue, value);
                     break;
                 default :
                     throw new IllegalStateException("Unexpected value: " + fieldName);
             }
         }
 
-        //Что должно делать?
         public String getFillField(String fieldName){
             switch (fieldName){
                 case  "Фамилия / Surname":
@@ -122,15 +114,17 @@ public class SendAppPage extends BasePage {
                 case  "Дата рождения":
                     return clientBirthDate.getAttribute("value");
                 case  "Фамилия":
-                    return insFirstName.getAttribute("value");
-                case  "Имя":
                     return insLastName.getAttribute("value");
+                case  "Имя":
+                    return insFirstName.getAttribute("value");
                 case  "Отчество":
                     return insMiddleName.getAttribute("value");
                 case  "Пол":
-                    return gender.getAttribute("value");
+                    return femGender.getAttribute("value");
                 case  "Номер паспорта":
                     return passportNumber.getAttribute("value");
+                case "Дата рождения страхователя":
+                    return insBirthDate.getAttribute("value");
                 case "Серия паспорта":
                     return passportSeries.getAttribute("value");
                 case "Дата выдачи":
@@ -148,11 +142,10 @@ public class SendAppPage extends BasePage {
         Assert.assertEquals(expectedValue,actualValue);
     }
 
-    public void checkFieldErrorMessage(){
-        String xpath = "//span[contains(@class,'invalid-validate form-control__message')]/..//span[contains(text(),'Поле не заполнено.')]";
+    public void checkFieldErrorMessage(String fieldName){
+        String xpath = "//span[@class='control-label'][contains(text(),'" + fieldName+ "')]/..//span[contains(@class,'invalid-validate form-control__message')]";
         String expectedValue = "Поле не заполнено.";
         String actualValue = driver.findElement(By.xpath(xpath)).getText();
         Assert.assertEquals(expectedValue,actualValue);
-        //span[contains(@class,'invalid-validate form-control__message')]/../li//span[contains(text(),'Поле')]
     }
 }
